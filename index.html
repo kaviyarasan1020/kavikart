@@ -1,1 +1,698 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KaviKart - Electronics Store</title>
+
+<!-- ================= CSS START ================= -->
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: #222;
+    background:
+        linear-gradient(rgba(245,248,255,.80), rgba(245,248,255,.86)),
+        url("https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&w=1920&q=85");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+header {
+    background: #fff;
+    padding: 18px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    box-shadow: 0 2px 10px #bbb;
+}
+
+.logo {
+    color: #2874f0;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.search {
+    padding: 12px;
+    width: 300px;
+    max-width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+button {
+    cursor: pointer;
+}
+
+.cart-btn {
+    background: #2874f0;
+    color: white;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.hero {
+    text-align: center;
+    color: white;
+    padding: 65px 20px;
+    background: linear-gradient(120deg, #152c55dd, #6a35bddd);
+}
+
+.hero h1 {
+    font-size: 38px;
+    margin-bottom: 12px;
+}
+
+.hero p {
+    font-size: 18px;
+}
+
+.categories {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 24px 12px;
+}
+
+.categories button {
+    padding: 11px 20px;
+    border: 1px solid #2874f0;
+    background: white;
+    color: #2874f0;
+    border-radius: 25px;
+}
+
+.categories button.active,
+.categories button:hover {
+    background: #2874f0;
+    color: white;
+}
+
+.section-title {
+    padding: 10px 5%;
+    font-size: 25px;
+    color: #172337;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 22px;
+    padding: 20px 5% 40px;
+}
+
+.product {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 15px #0002;
+    transition: transform .2s;
+}
+
+.product:hover {
+    transform: translateY(-5px);
+}
+
+.product img {
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+    margin-bottom: 12px;
+}
+
+.product h3 {
+    font-size: 17px;
+    min-height: 40px;
+    margin-bottom: 8px;
+}
+
+.price {
+    color: #138a36;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.stock {
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.stock.low {
+    color: #d35400;
+    font-weight: bold;
+}
+
+.stock.out {
+    color: #d00000;
+    font-weight: bold;
+}
+
+.add-btn {
+    width: 100%;
+    padding: 12px;
+    background: #ff9f00;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.add-btn:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+}
+
+.cart-section {
+    background: white;
+    padding: 25px;
+    margin: 20px 5% 35px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px #0002;
+}
+
+.cart-section h2 {
+    margin-bottom: 15px;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-item button {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+}
+
+.cart-total {
+    margin-top: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.checkout {
+    margin-top: 25px;
+}
+
+.checkout input {
+    display: block;
+    width: 100%;
+    max-width: 450px;
+    padding: 13px;
+    margin: 12px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.checkout button {
+    background: #138a36;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 13px 22px;
+    font-weight: bold;
+}
+
+.message {
+    margin-top: 15px;
+    color: #138a36;
+    font-weight: bold;
+}
+
+footer {
+    text-align: center;
+    background: #172337;
+    color: white;
+    padding: 25px;
+    line-height: 1.8;
+}
+
+@media (max-width: 600px) {
+    header {
+        justify-content: center;
+    }
+
+    .search {
+        width: 100%;
+    }
+
+    .hero h1 {
+        font-size: 28px;
+    }
+
+    .cart-section {
+        padding: 18px;
+    }
+}
+</style>
+<!-- ================= CSS END ================= -->
+</head>
+
+<body>
+
+<header>
+    <div class="logo">KaviKart 🛒</div>
+
+    <input
+        type="search"
+        class="search"
+        id="search"
+        placeholder="Search mobiles, cameras, TVs..."
+    >
+
+    <button class="cart-btn" onclick="showCart()">
+        🛒 Cart (<span id="cartCount">0</span>)
+    </button>
+</header>
+
+<section class="hero">
+    <h1>Welcome to KaviKart</h1>
+    <p>Mobiles • Cameras • TVs • Accessories • Gaming</p>
+</section>
+
+<nav class="categories">
+    <button class="active" onclick="filterProducts('All', this)">All Products</button>
+    <button onclick="filterProducts('Mobiles', this)">Mobiles</button>
+    <button onclick="filterProducts('Cameras', this)">Cameras</button>
+    <button onclick="filterProducts('TVs', this)">TVs</button>
+    <button onclick="filterProducts('Accessories', this)">Accessories</button>
+    <button onclick="filterProducts('Gaming', this)">Gaming</button>
+</nav>
+
+<h2 class="section-title">🔥 Popular Electronics</h2>
+<div class="products" id="products"></div>
+
+<section class="cart-section" id="cartSection">
+    <h2>🛒 Your Shopping Cart</h2>
+
+    <div id="cartItems">Your cart is empty.</div>
+
+    <div class="cart-total">
+        Total: ₹<span id="total">0</span>
+    </div>
+
+    <form class="checkout" id="checkoutForm">
+        <h3>Delivery Details</h3>
+
+        <input id="customerName" type="text"
+               placeholder="Customer Name" required>
+
+        <input id="phone" type="tel"
+               placeholder="10-digit Mobile Number"
+               pattern="[0-9]{10}" maxlength="10" required>
+
+        <input id="address" type="text"
+               placeholder="Delivery Address" required>
+
+        <button type="submit">Place Order</button>
+
+        <p class="message" id="message"></p>
+    </form>
+</section>
+
+<footer>
+    <h3>KaviKart Electronics Store</h3>
+    <p>Mobiles | Cameras | TVs | Gadgets | Gaming Accessories</p>
+    <p>© 2026 KaviKart. Demo shopping website.</p>
+</footer>
+
+<!-- ================= JAVASCRIPT START ================= -->
+<script>
+const initialProducts = [
+    {
+        id: 1,
+        name: "Smartphone",
+        category: "Mobiles",
+        price: 14999,
+        stock: 15,
+        image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+        id: 2,
+        name: "Digital Camera",
+        category: "Cameras",
+        price: 25999,
+        stock: 8,
+        image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+        id: 3,
+        name: "LED Smart TV",
+        category: "TVs",
+        price: 32999,
+        stock: 6,
+        image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+        id: 4,
+        name: "Wireless Headphones",
+        category: "Accessories",
+        price: 1999,
+        stock: 20,
+        image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+        id: 5,
+        name: "Smart Watch",
+        category: "Accessories",
+        price: 2499,
+        stock: 12,
+        image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+        id: 6,
+        name: "Gaming Controller",
+        category: "Gaming",
+        price: 2999,
+        stock: 10,
+        image: "https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+        id: 7,
+        name: "Bluetooth Speaker",
+        category: "Accessories",
+        price: 1599,
+        stock: 14,
+        image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+        id: 8,
+        name: "Gaming Headset",
+        category: "Gaming",
+        price: 3499,
+        stock: 9,
+        image: "https://images.unsplash.com/photo-1599669454699-248893623440?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+        id: 9,
+        name: "Laptop",
+        category: "Accessories",
+        price: 45999,
+        stock: 5,
+        image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+        id: 10,
+        name: "Camera Lens",
+        category: "Cameras",
+        price: 8999,
+        stock: 7,
+        image: "https://images.unsplash.com/photo-1617005082133-548c4dd27f35?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+        id: 11,
+        name: "Mobile Accessories Kit",
+        category: "Accessories",
+        price: 799,
+        stock: 25,
+        image: "https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+        id: 12,
+        name: "Gaming Keyboard",
+        category: "Gaming",
+        price: 2199,
+        stock: 11,
+        image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=600&q=80"
+    }
+];
+
+// Load saved inventory from localStorage.
+function loadProducts() {
+    try {
+        const saved = localStorage.getItem("kaviProducts");
+
+        if (saved) {
+            const parsed = JSON.parse(saved);
+
+            if (
+                Array.isArray(parsed) &&
+                parsed.length === initialProducts.length &&
+                parsed.every(p =>
+                    initialProducts.some(original => original.id === p.id) &&
+                    Number.isInteger(p.stock) &&
+                    p.stock >= 0
+                )
+            ) {
+                return parsed;
+            }
+        }
+    } catch (error) {
+        console.warn("Could not load saved products.", error);
+    }
+
+    return initialProducts.map(p => ({ ...p }));
+}
+
+let products = loadProducts();
+let cart = {};
+
+try {
+    const savedCart = JSON.parse(localStorage.getItem("kaviCart") || "{}");
+
+    if (savedCart && typeof savedCart === "object" && !Array.isArray(savedCart)) {
+        cart = savedCart;
+    }
+} catch {
+    cart = {};
+}
+
+let currentCategory = "All";
+
+function saveProducts() {
+    localStorage.setItem("kaviProducts", JSON.stringify(products));
+}
+
+function saveCart() {
+    localStorage.setItem("kaviCart", JSON.stringify(cart));
+}
+
+function renderProducts() {
+    const search = document.getElementById("search").value.toLowerCase();
+    const container = document.getElementById("products");
+
+    const filtered = products.filter(p =>
+        (currentCategory === "All" || p.category === currentCategory) &&
+        p.name.toLowerCase().includes(search)
+    );
+
+    if (filtered.length === 0) {
+        container.innerHTML = "<p>No products found.</p>";
+        return;
+    }
+
+    container.innerHTML = filtered.map(p => {
+        let stockText = "Stock: " + p.stock;
+        let stockClass = "";
+
+        if (p.stock === 0) {
+            stockText = "Out of Stock";
+            stockClass = "out";
+        } else if (p.stock <= 3) {
+            stockText = "Only " + p.stock + " left!";
+            stockClass = "low";
+        }
+
+        return `
+            <div class="product">
+                <img src="${p.image}" alt="${p.name}"
+                     onerror="this.alt='Image unavailable'">
+                <h3>${p.name}</h3>
+                <p class="price">₹${p.price.toLocaleString("en-IN")}</p>
+                <p class="stock ${stockClass}">${stockText}</p>
+                <button class="add-btn"
+                    ${p.stock === 0 ? "disabled" : ""}
+                    onclick="addToCart(${p.id})">
+                    ${p.stock === 0 ? "Sold Out" : "Add to Cart"}
+                </button>
+            </div>
+        `;
+    }).join("");
+}
+
+function filterProducts(category, button) {
+    currentCategory = category;
+
+    document.querySelectorAll(".categories button").forEach(b =>
+        b.classList.remove("active")
+    );
+
+    button.classList.add("active");
+    renderProducts();
+}
+
+function addToCart(id) {
+    const p = products.find(item => item.id === id);
+    const quantity = Number(cart[id]) || 0;
+
+    if (!p || quantity >= p.stock) {
+        alert("Available stock mattum dhaan add panna mudiyum bro!");
+        return;
+    }
+
+    cart[id] = quantity + 1;
+    saveCart();
+    renderCart();
+}
+
+function changeQuantity(id, change) {
+    const p = products.find(item => item.id === id);
+    if (!p) return;
+
+    const quantity = (Number(cart[id]) || 0) + change;
+
+    if (quantity <= 0) {
+        delete cart[id];
+    } else if (quantity <= p.stock) {
+        cart[id] = quantity;
+    } else {
+        alert("Available stock: " + p.stock);
+    }
+
+    saveCart();
+    renderCart();
+}
+
+function removeItem(id) {
+    delete cart[id];
+    saveCart();
+    renderCart();
+}
+
+function renderCart() {
+    const container = document.getElementById("cartItems");
+    let total = 0;
+    let count = 0;
+    let html = "";
+
+    for (const [id, rawQuantity] of Object.entries(cart)) {
+        const quantity = Number(rawQuantity);
+        const p = products.find(item => item.id === Number(id));
+
+        if (!p || !Number.isInteger(quantity) || quantity <= 0) {
+            delete cart[id];
+            continue;
+        }
+
+        total += p.price * quantity;
+        count += quantity;
+
+        html += `
+            <div class="cart-item">
+                <div>
+                    <strong>${p.name}</strong><br>
+                    ₹${p.price.toLocaleString("en-IN")} × ${quantity}
+                </div>
+                <div>
+                    <button type="button"
+                        onclick="changeQuantity(${p.id}, -1)">−</button>
+                    ${quantity}
+                    <button type="button"
+                        onclick="changeQuantity(${p.id}, 1)">+</button>
+                    <button type="button"
+                        onclick="removeItem(${p.id})">Remove</button>
+                </div>
+            </div>
+        `;
+    }
+
+    container.innerHTML = html || "<p>Your cart is empty.</p>";
+
+    document.getElementById("total").textContent =
+        total.toLocaleString("en-IN");
+
+    document.getElementById("cartCount").textContent = count;
+
+    saveCart();
+}
+
+function showCart() {
+    document.getElementById("cartSection").scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+// PLACE ORDER: Validate all items, then reduce stock and save.
+document.getElementById("checkoutForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const message = document.getElementById("message");
+    message.textContent = "";
+
+    const items = Object.entries(cart).filter(([id, quantity]) =>
+        products.some(p => p.id === Number(id)) &&
+        Number.isInteger(Number(quantity)) &&
+        Number(quantity) > 0
+    );
+
+    if (items.length === 0) {
+        alert("First product add pannunga bro!");
+        return;
+    }
+
+    // Check all quantities before changing stock.
+    for (const [id, quantity] of items) {
+        const p = products.find(item => item.id === Number(id));
+
+        if (!p || Number(quantity) > p.stock) {
+            alert("Stock available illa. Please check your cart.");
+            renderProducts();
+            renderCart();
+            return;
+        }
+    }
+
+    // Reduce inventory.
+    for (const [id, quantity] of items) {
+        const p = products.find(item => item.id === Number(id));
+        p.stock -= Number(quantity);
+    }
+
+    // Save updated inventory before clearing the cart.
+    saveProducts();
+
+    cart = {};
+    saveCart();
+
+    renderProducts();
+    renderCart();
+
+    message.textContent =
+        "Order placed! Stock updated successfully. This is a demo order only.";
+
+    this.reset();
+});
+
+document.getElementById("search").addEventListener("input", renderProducts);
+
+saveProducts();
+renderProducts();
+renderCart();
+</script>
+<!-- ================= JAVASCRIPT END ================= -->
+
+</body>
+</html>
+
