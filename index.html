@@ -730,15 +730,63 @@ document.getElementById("checkoutForm").addEventListener("submit", function(even
         }
     }
 
-    // Reduce inventory.
+    // Collect customer details and prepare the order message.
+    const customerName = document.getElementById("customerName").value.trim();
+    const customerPhone = document.getElementById("phone").value.trim();
+    const customerAddress = document.getElementById("address").value.trim();
+
+    if (!/^[0-9]{10}$/.test(customerPhone)) {
+        alert("Please enter a valid 10-digit customer WhatsApp number.");
+        return;
+    }
+
+    let orderTotal = 0;
+    const orderLines = [];
+
+    for (const [id, quantity] of items) {
+        const p = products.find(item => item.id === Number(id));
+        const qty = Number(quantity);
+        const itemPrice = getDiscountedPrice(p);
+        const lineTotal = itemPrice * qty;
+        orderTotal += lineTotal;
+        orderLines.push(
+            `${p.name} | Qty: ${qty} | Price: Rs.${itemPrice.toLocaleString("en-IN")} | Subtotal: Rs.${lineTotal.toLocaleString("en-IN")}`
+        );
+    }
+
+    const orderMessage = [
+        "Hello! Your order has been received by KaviKart.",
+        "",
+        `Customer Name: ${customerName}`,
+        `Customer WhatsApp Number: ${customerPhone}`,
+        `Delivery Address: ${customerAddress}`,
+        "",
+        "ORDER DETAILS",
+        ...orderLines,
+        "",
+        `Total Amount: Rs.${orderTotal.toLocaleString("en-IN")}`,
+        "",
+        "Thank you for choosing KaviKart. We will contact you soon regarding your order."
+    ].join("\\n");
+
+    // Open the customer's WhatsApp chat from the WhatsApp account
+    // currently signed in on this browser/device. The sender must press Send.
+    const whatsappUrl =
+        `https://wa.me/91${customerPhone}?text=${encodeURIComponent(orderMessage)}`;
+    const whatsappWindow = window.open(whatsappUrl, "_blank");
+
+    if (!whatsappWindow) {
+        alert("WhatsApp tab was blocked. Please allow pop-ups for this website and place the order again.");
+        return;
+    }
+
+    // Reduce inventory after the WhatsApp chat has been opened.
     for (const [id, quantity] of items) {
         const p = products.find(item => item.id === Number(id));
         p.stock -= Number(quantity);
     }
 
-    // Save updated inventory before clearing the cart.
     saveProducts();
-
     cart = {};
     saveCart();
 
@@ -746,7 +794,7 @@ document.getElementById("checkoutForm").addEventListener("submit", function(even
     renderCart();
 
     message.textContent =
-        "Order placed! Stock updated successfully. This is a demo order only.";
+        "Order details opened in WhatsApp. Check the customer number and press Send to send the message.";
 
     this.reset();
 });
