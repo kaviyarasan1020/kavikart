@@ -259,6 +259,24 @@ footer {
     line-height: 1.8;
 }
 
+
+/* Product-wise discount display */
+.price-box { margin: 8px 0 12px; min-height: 88px; }
+.old-price {
+    display: inline-block; color: #777; font-size: 14px;
+    text-decoration: line-through; margin-right: 8px;
+}
+.price-box .price {
+    display: inline-block; margin: 4px 8px 4px 0;
+    color: #138a36; font-size: 22px; font-weight: bold;
+}
+.discount-badge {
+    display: inline-block; background: #e6f4ea; color: #137333;
+    padding: 5px 8px; border-radius: 5px; font-size: 13px; font-weight: bold;
+}
+.you-save { color: #138a36; font-size: 13px; font-weight: bold; margin-top: 3px; }
+.cart-discount { color: #138a36; font-size: 12px; }
+
 @media (max-width: 600px) {
     header {
         justify-content: center;
@@ -497,6 +515,19 @@ function loadProducts() {
 }
 
 let products = loadProducts();
+
+// Product-wise discount percentages (edit these values whenever needed).
+const discountRates = {
+    1: 10, 2: 15, 3: 20, 4: 25, 5: 30, 6: 10,
+    7: 15, 8: 20, 9: 12, 10: 18, 11: 25, 12: 15
+};
+
+// Existing product price is treated as the original price.
+function getDiscountedPrice(product) {
+    const discount = discountRates[product.id] || 0;
+    return Math.round(product.price * (1 - discount / 100));
+}
+
 let cart = {};
 
 try {
@@ -550,7 +581,12 @@ function renderProducts() {
                 <img src="${p.image}" alt="${p.name}"
                      onerror="this.alt='Image unavailable'">
                 <h3>${p.name}</h3>
-                <p class="price">₹${p.price.toLocaleString("en-IN")}</p>
+                <div class="price-box">
+                    <p class="old-price">₹${p.price.toLocaleString("en-IN")}</p>
+                    <p class="price">₹${getDiscountedPrice(p).toLocaleString("en-IN")}</p>
+                    <span class="discount-badge">${discountRates[p.id] || 0}% OFF</span>
+                    <p class="you-save">You Save: ₹${(p.price - getDiscountedPrice(p)).toLocaleString("en-IN")}</p>
+                </div>
                 <p class="stock ${stockClass}">${stockText}</p>
                 <button class="add-btn"
                     ${p.stock === 0 ? "disabled" : ""}
@@ -626,14 +662,14 @@ function renderCart() {
             continue;
         }
 
-        total += p.price * quantity;
+        total += getDiscountedPrice(p) * quantity;
         count += quantity;
 
         html += `
             <div class="cart-item">
                 <div>
                     <strong>${p.name}</strong><br>
-                    ₹${p.price.toLocaleString("en-IN")} × ${quantity}
+                    ₹${getDiscountedPrice(p).toLocaleString("en-IN")} × ${quantity} <span class="cart-discount">(discounted price)</span>
                 </div>
                 <div>
                     <button type="button"
